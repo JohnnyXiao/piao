@@ -18,7 +18,7 @@ heshu = redAll - zhishu
 xiaoshu = set(range(1, 17))
 dashu = set(range(18, 34))
 
-data = xlrd.open_workbook(r"E:\workspace\code\piao\data\ssq_origin_data.xlsx")
+data = xlrd.open_workbook(r".\data\ssq_origin_data.xlsx")
 
 table = data.sheets()[0]
 #print(table.nrows, table.ncols)
@@ -228,7 +228,7 @@ def rangeball(num, houxuan):
 
             if len(set(redDone) & set(red_houxuan)) == 4 and ou in range(2, 5) and xiao in range(2, 5) and he in range(3, 6)\
                     and lian_2 in range(0, 3) and lian_3 <= 1 and tong in [1, 2] and not (set(region.values()) & {0, 4, 5, 6}) \
-                    and chong in [0, 1, 2] and ge in [0, 1, 2] and ling in [2, 3, 4] and xielian3 in [0, 1, 2]:
+                    and chong in [0, 1, 2] and ge in [1, 2, 3] and ling in [2, 3, 4] and xielian3 in [0, 1, 2]:
                 # choice result
                 print(fr"偶:{ou}  小:{xiao}  合:{he}  2连:{lian_2}  3连:{lian_3}  同尾:{tong}组  3区:{'_'.join(str(i) for i in region.values())}  重:{chong}  隔:{ge}  邻:{ling}  斜3:{xielian3},  {' '.join(str(i) for i in sorted(redDone))} + {blueDone}")
                 n += 1
