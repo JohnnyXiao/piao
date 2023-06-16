@@ -37,6 +37,15 @@ def getLatestN(n):
     # print(len(set_latest5))
     return list(set_latest5)
 
+def historyRedList():
+    n = table.nrows
+    redList = []
+    for m in range(n-1):
+        cellValue_str = table.row(m+1)[2].value
+        cellValue_set = set(int(item) for item in cellValue_str.split(' '))
+        redList.append(cellValue_set)
+    return redList
+
 def getLatestSeq():
     latestSeq = table.row(1)[1].value
     return latestSeq
@@ -195,6 +204,7 @@ def rangeball(num, houxuan):
     blueDone = random.choice(allBlue)
     latestSeq = getLatestSeq()
     print(f'{int(latestSeq) + 1}：')
+    historyRed = historyRedList()
     while 1:
         if houxuan:
             red_houxuan = houxuan
@@ -226,14 +236,22 @@ def rangeball(num, houxuan):
             ling = getLingNum(redDone)
             xielian3 = getXieLian3Num(redDone)
 
-            if len(set(redDone) & set(red_houxuan)) == 4 and ou in range(2, 5) and xiao in range(2, 5) and he in range(3, 6)\
-                    and lian_2 in range(0, 3) and lian_3 <= 1 and tong in [1, 2] and not (set(region.values()) & {0, 4, 5, 6}) \
-                    and chong in [0, 1, 2] and ge in [1, 2, 3] and ling in [2, 3, 4] and xielian3 in [0, 1, 2]:
-                # choice result
-                print(fr"偶:{ou}  小:{xiao}  合:{he}  2连:{lian_2}  3连:{lian_3}  同尾:{tong}组  3区:{'_'.join(str(i) for i in region.values())}  重:{chong}  隔:{ge}  邻:{ling}  斜3:{xielian3},  {' '.join(str(i) for i in sorted(redDone))} + {blueDone}")
-                n += 1
-            else:
-                continue
+            for history in historyRed:
+                sameNum = len(history & set(redDone))
+                #print("继续比较下一个历史"+str(sameNum))
+                if sameNum in range(4, 6):
+                    if len(set(redDone) & set(red_houxuan)) >= 4 and ou in range(2, 5) and xiao in range(2, 5) and he in range(3, 6) \
+                            and lian_2 in range(0, 3) and lian_3 <= 1 and tong in [1, 2] and not (set(region.values()) & {0, 4, 5, 6}) \
+                            and chong in [0, 1, 2] and ge in [1, 2, 3] and ling in [2, 3, 4] and xielian3 in [0, 1, 2]:
+                        # choice result
+                        print(fr"偶:{ou}  小:{xiao}  合:{he}  2连:{lian_2}  3连:{lian_3}  同尾:{tong}组  3区:{'_'.join(str(i) for i in region.values())}  重:{chong}  隔:{ge}  邻:{ling}  斜3:{xielian3},  {' '.join(str(i) for i in sorted(redDone))} + {blueDone}")
+                        n += 1
+                        print(history)
+                        break
+                    else:
+                        break
+                else:
+                    continue
         else:
             print(f'CHOICE OVER! total: {selectNum}')
             break
